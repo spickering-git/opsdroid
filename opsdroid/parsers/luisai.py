@@ -5,6 +5,8 @@ import json
 
 import aiohttp
 
+from opsdroid.const import (
+    LUISAI_API_ENDPOINT)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -15,7 +17,7 @@ async def call_luisai(message, config):
         headers = {
             "Content-Type": "application/json"
         }
-        url = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/'
+        url = LUISAI_API_ENDPOINT
         resp = await session.get(url + config['appid'] +
                                  '?subscription-key=' + config['appkey'] +
                                  '&timezoneOffset=0' +

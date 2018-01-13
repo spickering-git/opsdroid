@@ -4,6 +4,8 @@ import json
 
 import aiohttp
 
+from opsdroid.const import (
+    RECASTAI_API_ENDPOINT)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -19,7 +21,7 @@ async def call_recastai(message, config):
             "Authorization": "Token " + config['access-token'],
             "Content-Type": "application/json"
         }
-        resp = await session.post("https://api.recast.ai/v2/request",
+        resp = await session.post(RECASTAI_API_ENDPOINT,
                                   data=json.dumps(payload),
                                   headers=headers)
         result = await resp.json()

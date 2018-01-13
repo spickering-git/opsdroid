@@ -5,6 +5,8 @@ import json
 
 import aiohttp
 
+from opsdroid.const import (
+    DIALOGFLOW_API_VERSION,DIALOGFLOW_API_ENDPOINT)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -13,7 +15,7 @@ async def call_dialogflow(message, config):
     """Call the Dialogflow api and return the response."""
     async with aiohttp.ClientSession() as session:
         payload = {
-            "v": "20150910",
+            "v": DIALOGFLOW_API_VERSION,
             "lang": "en",
             "sessionId": message.connector.name,
             "query": message.text
@@ -22,7 +24,7 @@ async def call_dialogflow(message, config):
             "Authorization": "Bearer " + config['access-token'],
             "Content-Type": "application/json"
         }
-        resp = await session.post("https://api.dialogflow.com/v1/query",
+        resp = await session.post(DIALOGFLOW_API_ENDPOINT,
                                   data=json.dumps(payload),
                                   headers=headers)
         result = await resp.json()

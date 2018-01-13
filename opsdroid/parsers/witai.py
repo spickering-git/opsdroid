@@ -5,6 +5,9 @@ import json
 
 import aiohttp
 
+from opsdroid.const import (
+    WITAI_API_ENDPOINT, WITAI_API_VERSION)
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -15,11 +18,11 @@ async def call_witai(message, config):
             "Authorization": "Bearer " + config['access-token']
         }
         payload = {
-            "v": "20170307",
+            "v": WITAI_API_VERSION,
             "q": message.text
         }
-        resp = await session.get("https://api.wit.ai/message?v={}&q={}".format(
-            payload['v'], payload['q']), headers=headers)
+        resp = await session.get("{}?v={}&q={}".format(
+            WITAI_API_ENDPOINT, payload['v'], payload['q']), headers=headers)
         result = await resp.json()
         _LOGGER.info("wit.ai response - %s", json.dumps(result))
         return result
